@@ -1,0 +1,50 @@
+seed: 1
+reproducibility: True
+shuffle: True  # Whether or not to shuffle the training data before each epoch
+
+# 1 - https://recbole.io/docs/get_started/started/sequential.html?highlight=item_id_list
+# 2 - https://github.com/RUCAIBox/RecBole/issues/1442
+### IMPORTANT info in how to use seqRec: https://github.com/RUCAIBox/RecBole/blob/master/docs/source/get_started/started/sequential.rst
+
+#Data parameters
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+TIME_FIELD: timestamp
+load_col:
+    inter: [user_id, item_id,timestamp]
+ITEM_LIST_LENGTH_FIELD: item_length
+LIST_SUFFIX: _list
+MAX_ITEM_LIST_LENGTH: 5 #Definig this will split the data in more samples, limiting list lenght
+dataset: ml-100k
+#data_path: /home/eduardo/projects/MovieLens-100k/data/
+#dataset: u1
+#benchmark_filename: [base, real_valid, real_test] 
+
+#Model parameters (Based in GRU4REC)
+embedding_size: 64
+hidden_size: 128
+num_layers: 1
+dropout_prob: 0.3
+loss_type: 'CE'
+
+#Train and evaluation parameters
+epochs: 500
+train_batch_size: 4096
+eval_batch_size: 4096
+train_neg_sample_args: ~
+eval_args:
+    group_by: user
+    order: TO
+    split: {'LS': 'valid_and_test'}
+    mode: full
+#{'split': {'LS': 'valid_and_test'}, 'order': 'TO', 'mode': 'full', 'group_by': 'user'}
+#eval_args: {split: {RS: [1,0,0]}, group_by: user, order: TO, mode: full}
+#eval_args:{split: {RS: [0.8,0.1,0.1]}, group_by: user, order: RO, mode: full}, #{RS: [0.8,0.1,0.1]} {LS: valid_and_test}
+metrics: ['Recall', 'MRR', 'NDCG', 'Hit', 'Precision']
+topk: 10
+valid_metric: MRR@10
+
+learner: adam  
+# [adam, sgd, adagrad, rmsprop, sparse_adam]
+learning_rate: 0.001
+stopping_step: 500 #early stop configuration

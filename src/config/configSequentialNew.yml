@@ -1,0 +1,53 @@
+# Init config
+seed: 1
+use_gpu: True
+reproducibility: True
+shuffle: False
+state: info
+
+# Dataset Configuration
+
+#MAX_ITEM_LIST_LENGTH: 4
+benchmark_filename: [train, valid, test] 
+data_path: /home/eduardo/masters/MovieLens-100k/data/noRating/
+dataset: u1
+load_col:
+    inter: [user_id, item_id, timestamp]
+USER_ID_FIELD: user_id,
+ITEM_ID_FIELD: item_id,
+TIME_FIELD: timestamp,
+LIST_SUFFIX: _list
+field_separator: '	'
+#seq_separator: ' '
+header: True
+
+# Model Configuration
+embedding_size: 5
+# hidden_size: 64
+# num_blocks: 2
+# num_heads: 1
+# dropout_prob: 0.2
+
+# Training Configuration
+#train_neg_sample_args: {'distribution': 'none', 'sample_num': 'none', 'alpha': 'none', 'dynamic': False, 'candidate_num': 0}
+train_neg_sample_args: null
+train_batch_size: 32
+epochs: 10
+batch_size: 32
+learning_rate: 0.001
+learner: adam
+stopping_step: 10
+weight_decay: 0.0
+
+# Evaluation config
+eval_setting: [BPR, AUC]
+#eval_neg_sample_args: {'distribution': 'uniform', 'sample_num': 'none'}
+#eval_args = {'group_by': 'user', 'order': 'TO', 'split': {'LS': 'valid_and_test'}, 'mode': 'full'}
+metrics: [Recall, Precision, MRR, NDCG, Hit]
+topk: 10
+valid_metric: MRR@10
+eval_batch_size: 32
+
+
+# Loss Function Configuration
+loss_type: CE

@@ -1,0 +1,36 @@
+dataset: ml-100k
+
+# Specify the sequential setting for the dataset
+data_config:
+  sequential: True
+  num_seq: 5
+  sep: ' '
+
+# Specify the model-specific settings
+model_config:
+  embedding_size: 64
+  hidden_size: 64
+  num_blocks: 2
+  num_heads: 1
+  dropout_prob: 0.5
+  layer_norm_eps: 1e-6
+  initializer_range: 0.02
+
+# Specify the training and evaluation settings
+train_config:
+  epochs: 10
+  eval_interval: 1
+  use_gpu: True  # Set to True if you have a GPU available
+
+# Specify the evaluation metrics
+eval_setting: ['Precision', 'Recall', 'NDCG']
+
+# Specify the data split strategy
+data_process:
+  split_ratio:
+    train: 0.8
+    valid: 0.1
+    test: 0.1
+
+# Set train_neg_sample_args to None for CE loss
+train_neg_sample_args:

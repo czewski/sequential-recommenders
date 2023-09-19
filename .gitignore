@@ -1,3 +1,9 @@
+data/
+src/log
+src/log_tensorboard
+src/saved/
+*.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,40 @@
+seed: 1
+reproducibility: True
+embedding_size: 64
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+RATING_FIELD: rating
+TIME_FIELD: timestamp
+shuffle: False,  # Whether or not to shuffle the training data before each epoch
+
+#data
+data_path: /home/eduardo/projects/MovieLens-100k/dataset/ml100kfolds
+#dataset: u1,
+benchmark_filename: [base, real_valid, real_test] 
+#train, valid, test
+load_col:
+    - inter:[user_id, item_id, rating, timestamp]
+
+# Train
+epochs: 50
+learner: adam  
+# [adam, sgd, adagrad, rmsprop, sparse_adam]
+learning_rate: 0.001
+train_batch_size: 2048
+
+
+#Evaluation
+metrics:
+    - [Recall, MRR, NDCG, Hit, Precision, MAP, TailPercentage] 
+# AUC, MAE, RMSE
+valid_metric: MRR@10
+eval_args:
+    - split: 
+        - RS: [0.8,0.1,0.1]
+        - group_by: user
+        - order: RO
+        - mode: full #{RS: [0.8,0.1,0.1]} {LS: valid_and_test}
+
+topk: 10 
+#eval_args:{split: {RS: [0.8,0.1,0.1]}, group_by: user, order: RO, mode: full}, #{RS: [0.8,0.1,0.1]} {LS: valid_and_test}
+#load_split_dataloaders
